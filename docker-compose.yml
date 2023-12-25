@@ -1,0 +1,11 @@
+version: "3"
+services:
+  node-service:
+    container_name: node-service
+    build: .
+    restart: always
+    ports:
+      - 8080:8080
+    volumes:
+      - .:/usr/src/app
+    command: [ "npm", "start"]
