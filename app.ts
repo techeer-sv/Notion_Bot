@@ -84,6 +84,19 @@ async function sendBlogInfoSlackMessage(channel: string, text: string) {
     }
 }
 
+function convertUTCToKST(utcDate: Date){
+    try{
+        if(!utcDate || isNaN(utcDate.getTime())){
+            throw new Error('잘못된 날짜 형식입니다.');
+        }
+        const convertKst = 60 * 9;
+        return new Date(utcDate.getTime() + convertKst * 60000);
+    } catch(error) {
+        console.log('kst로 시간 변환을 하지 못했습니다.');
+        return undefined;
+    }
+}
+
 interface NotionDataArr {
     notionTitle: string;
     url: string;
@@ -93,8 +106,8 @@ interface NotionDataArr {
 
 const rule = new RecurrenceRule();
 rule.dayOfWeek = 5
-rule.hour = 18;
-rule.minute = 7;
+rule.hour = 23;
+rule.minute = 4;
 rule.tz = 'Asia/Seoul';
 
 
@@ -130,6 +143,10 @@ rule.tz = 'Asia/Seoul';
             database_id: databaseId
         })
 
+        const filterDate = new Date();
+        filterDate.setHours(filterDate.getHours() - 48);
+        const filterDateKst = convertUTCToKST(filterDate);
+
         let notionData: NotionDataArr[] = [];
 
         for(const notionInfo of response.results){
@@ -141,16 +158,22 @@ rule.tz = 'Asia/Seoul';
                 const url = properties['URL']?.url;
                 const creator = properties['작성자']?.rich_text[0]?.plain_text || "";
                 const blogTitle = await getBlogTitleFromUrl(url, notionTitle);
+                const submitBlogDateKST = convertUTCToKST(new Date(page.created_time));
                 
-                notionData.push({notionTitle, url, creator, blogTitle});
-        
-                // console.log(`노션제목: ${notionTitle} || URL: ${url} || 작성자: ${creator} || 블로그제목: ${blogTitle}`);
+                if(submitBlogDateKST && filterDateKst && submitBlogDateKST > filterDateKst){
+                    notionData.push({notionTitle, url, creator, blogTitle});
+                }
+                // console.log(`submitBlogDate: ${submitBlogDateKST} || filterDate: ${filterDateKst}`);
+
+                // console.log(`노션제목: ${notionTitle} || URL: ${url} || 작성자: ${creator} || 블로그제목: ${blogTitle} || 생성날짜: ${submitBlogDateKST}`);
             }
         };
+
         scheduleJob(rule, function() {
-            console.log('스케줄러 실행: 매주 금요일 오후 6시 7분');
+            console.log('스케줄러 실행: 매주 금요일 오후 11시 4분');
+            console.log(notionData);
             notionData.forEach((data) => {
-                const slakChannelId = process.env.DEBUG_CHANNEL;
+                const slakChannelId = process.env.TEST_CHANNEL;
                 if(typeof slakChannelId !== 'string'){
                     throw new Error('slakChannelId가 제대로 설정되지 않았습니다!');
                 }
