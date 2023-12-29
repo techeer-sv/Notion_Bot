@@ -11,6 +11,7 @@ import { PageObjectResponse } from '@notionhq/client/build/src/api-endpoints';
 import axios from 'axios';
 import { error } from 'console';
 
+
 const app = new App({
     token: process.env.SLACK_BOT_TOKEN,
     signingSecret: process.env.SLACK_SIGNING_SECRET,
@@ -104,11 +105,12 @@ interface NotionDataArr {
     blogTitle?: string;
 }
 
-const rule = new RecurrenceRule();
-rule.dayOfWeek = 5
-rule.hour = 23;
-rule.minute = 4;
-rule.tz = 'Asia/Seoul';
+const rule = new RecurrenceRule(); // 주기 바꾸기
+// rule.minute = [0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55];
+// rule.dayOfWeek = 5
+// rule.hour = 23;
+// rule.minute = 58;
+// rule.tz = 'Asia/Seoul';
 
 
 
@@ -135,57 +137,50 @@ rule.tz = 'Asia/Seoul';
             throw new Error('The NOTION_DATABASE_ID 환경 변수 설정 문제');
         }
         
-        const databaseId = process.env.NOTION_DATABASE_ID
+        const databaseId = process.env.NOTION_DATABASE_ID;
 
-        const databaseResponse = await notion.databases.retrieve({ database_id: databaseId });
+        scheduleJob(rule, async function() {
+            console.log('스케줄러 실행: 5분마다 한 번씩 실행');
+            try {
+                const filterDate = new Date();
+                filterDate.setHours(filterDate.getHours() - 96); // 48시간 이전으로 설정
+                const filterDateKst = convertUTCToKST(filterDate);
 
-        const response = await notion.databases.query({
-            database_id: databaseId
-        })
+                const response = await notion.databases.query({
+                    database_id: databaseId
+                });
 
-        const filterDate = new Date();
-        filterDate.setHours(filterDate.getHours() - 48);
-        const filterDateKst = convertUTCToKST(filterDate);
-
-        let notionData: NotionDataArr[] = [];
-
-        for(const notionInfo of response.results){
-            const page = notionInfo as any;
-            if(page.properties){
-                const properties = page.properties;
-        
-                const notionTitle = properties['제목']?.title[0]?.plain_text || "";
-                const url = properties['URL']?.url;
-                const creator = properties['작성자']?.rich_text[0]?.plain_text || "";
-                const blogTitle = await getBlogTitleFromUrl(url, notionTitle);
-                const submitBlogDateKST = convertUTCToKST(new Date(page.created_time));
-                
-                if(submitBlogDateKST && filterDateKst && submitBlogDateKST > filterDateKst){
-                    notionData.push({notionTitle, url, creator, blogTitle});
+                let notionData = [];
+                for (const notionInfo of response.results) {
+                    const page = notionInfo as any;
+                    if (page.properties) {
+                        const properties = page.properties;
+                        const notionTitle = properties['제목']?.title[0]?.plain_text || "";
+                        const url = properties['URL']?.url;
+                        const creator = properties['작성자']?.rich_text[0]?.plain_text || "";
+                        const blogTitle = await getBlogTitleFromUrl(url, notionTitle);
+                        const submitBlogDateKST = convertUTCToKST(new Date(page.created_time));
+                        
+                        if(submitBlogDateKST && filterDateKst && submitBlogDateKST > filterDateKst){
+                            notionData.push({notionTitle, url, creator, blogTitle});
+                        }
+                    }
                 }
-                // console.log(`submitBlogDate: ${submitBlogDateKST} || filterDate: ${filterDateKst}`);
+                notionData.forEach((data) => {
+                    const slakChannelId = process.env.TEST_CHANNEL;
+                    if (typeof slakChannelId !== 'string') {
+                        throw new Error('slakChannelId가 제대로 설정되지 않았습니다!');
+                    }
+                    const removeAngle = data.blogTitle?.replace(/[<>]/g, '') || 'No Title';
+                    const message = `${data.creator} - <${data.url}|${removeAngle}>`;
+                    sendBlogInfoSlackMessage(slakChannelId, message);
+                });
 
-                // console.log(`노션제목: ${notionTitle} || URL: ${url} || 작성자: ${creator} || 블로그제목: ${blogTitle} || 생성날짜: ${submitBlogDateKST}`);
+            } catch (error) {
+                console.error('노션 데이터베이스 컬럼을 제대로 가져오지 못했습니다:', error);
             }
-        };
-
-        scheduleJob(rule, function() {
-            console.log('스케줄러 실행: 매주 금요일 오후 11시 4분');
-            console.log(notionData);
-            notionData.forEach((data) => {
-                const slakChannelId = process.env.TEST_CHANNEL;
-                if(typeof slakChannelId !== 'string'){
-                    throw new Error('slakChannelId가 제대로 설정되지 않았습니다!');
-                }
-                const removeAngle = data.blogTitle?.replace(/[<>]/g,'') || 'No Title';
-                const message = `${data.creator} - <${data.url}|${removeAngle}>`;
-                sendBlogInfoSlackMessage(slakChannelId, message);
-            });
         });
 
-        // console.log(response.results);
-
-        // console.log('노션 database:', databaseResponse);
     } catch (error) {
         console.error('노션 database 연결 실패:', error);
     }
