@@ -5,10 +5,11 @@ import { Client } from '@notionhq/client';
 import {submitNotionCommandHandler} from './server/notion/blog/submitNotionCommandHandler';
 import {uploadNotionBlogViewHandler} from './server/notion/blog/uploadNotionBlogViewHandler';
 import { slackBotMentionHandler } from './server/slack/mention/slackBotMentionHandler';
-import { scheduleJob } from 'node-schedule';
+import { scheduleJob, RecurrenceRule } from 'node-schedule';
 import * as cheerio from 'cheerio';
 import { PageObjectResponse } from '@notionhq/client/build/src/api-endpoints';
 import axios from 'axios';
+import { error } from 'console';
 
 const app = new App({
     token: process.env.SLACK_BOT_TOKEN,
@@ -21,6 +22,8 @@ const notion = new Client({ auth: process.env.NOTION_TOKEN });
 slackBotMentionHandler(app);
 submitNotionCommandHandler(app);
 uploadNotionBlogViewHandler(app);
+
+const slackClient = new Client({ auth: process.env.SLACK_BOT_TOKEN });
 
 
 async function getBlogTitleFromUrl(url: string, notionTitle: string) {
@@ -39,11 +42,15 @@ async function getBlogTitleFromUrl(url: string, notionTitle: string) {
 }
 
 async function getBlogTitleFromGitHubIo(url: string) {
-    const {data} = await axios.get(url);
-    const $ = cheerio.load(data);
-    const gitHubIoTitle = $('h1').text();
-
-    return gitHubIoTitle.trim();
+    try{
+        const {data} = await axios.get(url);
+        const $ = cheerio.load(data);
+        const gitHubIoTitle = $('h1').text();
+    
+        return gitHubIoTitle.trim();
+    } catch(error) {
+        console.log('GitHubIo url의 제목을 가져오지 못했습니다!');
+    }
 }
 
 
@@ -55,18 +62,40 @@ function removeNotTitle(url: string, title: string, notionTitle: string) {
             return cutTitle[0].trim();
         } else if(url.includes('github.io')){
             return getBlogTitleFromGitHubIo(url);
-        } else {
+        } else if(url.includes('notion.site')){
+            return notionTitle;
+        } else{
             return title;
         }
-
 
     } catch(error) {
         console.log('블로그 제목 이외의 값을 지우지 못했습니다!');
     }
 }
 
+async function sendBlogInfoSlackMessage(channel: string, text: string) {
+    try{
+       const response = await app.client.chat.postMessage({
+        channel: channel,
+        text: text
+       })
+    } catch(error) {
+        console.log('슬랙에 블로그를 전달하지 못했습니다.');
+    }
+}
 
+interface NotionDataArr {
+    notionTitle: string;
+    url: string;
+    creator: string;
+    blogTitle?: string;
+}
 
+const rule = new RecurrenceRule();
+rule.dayOfWeek = 5
+rule.hour = 18;
+rule.minute = 7;
+rule.tz = 'Asia/Seoul';
 
 
 
@@ -101,6 +130,8 @@ function removeNotTitle(url: string, title: string, notionTitle: string) {
             database_id: databaseId
         })
 
+        let notionData: NotionDataArr[] = [];
+
         for(const notionInfo of response.results){
             const page = notionInfo as any;
             if(page.properties){
@@ -109,14 +140,25 @@ function removeNotTitle(url: string, title: string, notionTitle: string) {
                 const notionTitle = properties['제목']?.title[0]?.plain_text || "";
                 const url = properties['URL']?.url;
                 const creator = properties['작성자']?.rich_text[0]?.plain_text || "";
-                const title = await getBlogTitleFromUrl(url, notionTitle);
+                const blogTitle = await getBlogTitleFromUrl(url, notionTitle);
+                
+                notionData.push({notionTitle, url, creator, blogTitle});
         
-                // scheduleJob('*/30 * * * * *', function() {
-                //     console.log(`노션제목: ${title} || URL: ${url} || 작성자: ${creator}`);
-                // });
-                console.log(`노션제목: ${notionTitle} || URL: ${url} || 작성자: ${creator} || 블로그제목: ${title}`);
+                // console.log(`노션제목: ${notionTitle} || URL: ${url} || 작성자: ${creator} || 블로그제목: ${blogTitle}`);
             }
         };
+        scheduleJob(rule, function() {
+            console.log('스케줄러 실행: 매주 금요일 오후 6시 7분');
+            notionData.forEach((data) => {
+                const slakChannelId = process.env.DEBUG_CHANNEL;
+                if(typeof slakChannelId !== 'string'){
+                    throw new Error('slakChannelId가 제대로 설정되지 않았습니다!');
+                }
+                const removeAngle = data.blogTitle?.replace(/[<>]/g,'') || 'No Title';
+                const message = `${data.creator} - <${data.url}|${removeAngle}>`;
+                sendBlogInfoSlackMessage(slakChannelId, message);
+            });
+        });
 
         // console.log(response.results);
 
