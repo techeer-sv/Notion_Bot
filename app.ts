@@ -106,7 +106,7 @@ interface NotionDataArr {
 }
 
 const rule = new RecurrenceRule(); // 주기 바꾸기
-// rule.minute = [0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55];
+rule.minute = [0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55];
 // rule.dayOfWeek = 5
 // rule.hour = 23;
 // rule.minute = 58;
@@ -166,15 +166,17 @@ const rule = new RecurrenceRule(); // 주기 바꾸기
                         }
                     }
                 }
+                let combineBlogInfo: string = '';
                 notionData.forEach((data) => {
-                    const slakChannelId = process.env.TEST_CHANNEL;
-                    if (typeof slakChannelId !== 'string') {
-                        throw new Error('slakChannelId가 제대로 설정되지 않았습니다!');
-                    }
                     const removeAngle = data.blogTitle?.replace(/[<>]/g, '') || 'No Title';
-                    const message = `${data.creator} - <${data.url}|${removeAngle}>`;
-                    sendBlogInfoSlackMessage(slakChannelId, message);
+                    combineBlogInfo += `${data.creator} - <${data.url}|${removeAngle}> \n`;
                 });
+                const slakChannelId = process.env.TEST_CHANNEL;
+                if (typeof slakChannelId !== 'string') {
+                    throw new Error('slakChannelId가 제대로 설정되지 않았습니다!');
+                }
+                sendBlogInfoSlackMessage(slakChannelId, combineBlogInfo);
+
 
             } catch (error) {
                 console.error('노션 데이터베이스 컬럼을 제대로 가져오지 못했습니다:', error);
