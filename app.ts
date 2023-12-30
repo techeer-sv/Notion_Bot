@@ -106,11 +106,11 @@ interface NotionDataArr {
 }
 
 const rule = new RecurrenceRule(); // 주기 바꾸기
-rule.minute = [0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55];
-// rule.dayOfWeek = 5
-// rule.hour = 23;
-// rule.minute = 58;
-// rule.tz = 'Asia/Seoul';
+// rule.minute = [0, 5, 7, 11, 20, 27, 30, 33, 36, 49, 54, 55];
+rule.dayOfWeek = 6
+rule.hour = 19;
+rule.minute = 0;
+rule.tz = 'Asia/Seoul';
 
 
 
@@ -130,7 +130,7 @@ rule.minute = [0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55];
     }
 })();
 
-// 노션 database 연결
+//노션 database 연결
 (async () => {
     try {
         if (typeof process.env.NOTION_DATABASE_ID !== 'string') {
@@ -140,10 +140,10 @@ rule.minute = [0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55];
         const databaseId = process.env.NOTION_DATABASE_ID;
 
         scheduleJob(rule, async function() {
-            console.log('스케줄러 실행: 5분마다 한 번씩 실행');
+            console.log('스케줄러 실행: 매주 토요일 오후 7시에 실행');
             try {
                 const filterDate = new Date();
-                filterDate.setHours(filterDate.getHours() - 96); // 48시간 이전으로 설정
+                filterDate.setHours(filterDate.getHours() - 168); // 일주일로 설정
                 const filterDateKst = convertUTCToKST(filterDate);
 
                 const response = await notion.databases.query({
@@ -166,12 +166,34 @@ rule.minute = [0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55];
                         }
                     }
                 }
-                let combineBlogInfo: string = '';
+                let currentDate = convertUTCToKST(new Date());
+                if(!currentDate){
+                    throw new Error('한국 날짜로 변경되지 않았습니다!');
+                }
+                let yesterday = new Date(currentDate);
+                yesterday.setDate(yesterday.getDate()-1);
+
+                let lastWeek = new Date(currentDate);
+                lastWeek.setDate(lastWeek.getDate()-7);
+
+                let formatYesterdayToKoreaVersion = yesterday?.toLocaleDateString('ko-KR',{
+                    year:'numeric',
+                    month:'long',
+                    day: 'numeric'
+                });
+
+                let formatLastWeekToKoreaVersion = lastWeek?.toLocaleDateString('ko-KR',{
+                    year:'numeric',
+                    month:'long',
+                    day: 'numeric'
+                });
+
+                let combineBlogInfo: string = `*[${formatLastWeekToKoreaVersion} ~ ${formatYesterdayToKoreaVersion} 테크 블로깅 챌린지 요약]* \n \n`;
                 notionData.forEach((data) => {
                     const removeAngle = data.blogTitle?.replace(/[<>]/g, '') || 'No Title';
-                    combineBlogInfo += `${data.creator} - <${data.url}|${removeAngle}> \n`;
+                    combineBlogInfo += `• <${data.url}|${removeAngle}> - ${data.creator}  \n`;
                 });
-                const slakChannelId = process.env.TEST_CHANNEL;
+                const slakChannelId = process.env.DEBUG_CHANNEL; // 채널 어디다 보낼지
                 if (typeof slakChannelId !== 'string') {
                     throw new Error('slakChannelId가 제대로 설정되지 않았습니다!');
                 }
