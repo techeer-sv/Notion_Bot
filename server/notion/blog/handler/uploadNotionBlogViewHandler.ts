@@ -1,5 +1,5 @@
 import { App } from '@slack/bolt';
-import {uploadBlogToNotion} from '../../utils/notionUtils';
+import {uploadBlogToNotion} from '../notionPage/uploadBlogToNotion';
 
 export const uploadNotionBlogViewHandler = (app: App) => {
     app.view('uploadBlog', async({ack, body, view, client}) => {
