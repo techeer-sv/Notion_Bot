@@ -107,8 +107,8 @@ interface NotionDataArr {
 
 const rule = new RecurrenceRule(); // 주기 바꾸기
 // rule.minute = [0, 5, 7, 11, 20, 27, 30, 33, 36, 49, 54, 55];
-rule.dayOfWeek = 6
-rule.hour = 19;
+rule.dayOfWeek = 1
+rule.hour = 9;
 rule.minute = 0;
 rule.tz = 'Asia/Seoul';
 
@@ -140,7 +140,7 @@ rule.tz = 'Asia/Seoul';
         const databaseId = process.env.NOTION_DATABASE_ID;
 
         scheduleJob(rule, async function() {
-            console.log('스케줄러 실행: 매주 토요일 오후 7시에 실행');
+            console.log('매주 월요일 오전 9시에 실행');
             try {
                 const filterDate = new Date();
                 filterDate.setHours(filterDate.getHours() - 168); // 일주일로 설정
@@ -193,7 +193,7 @@ rule.tz = 'Asia/Seoul';
                     const removeAngle = data.blogTitle?.replace(/[<>]/g, '') || 'No Title';
                     combineBlogInfo += `• <${data.url}|${removeAngle}> - ${data.creator}  \n`;
                 });
-                const slakChannelId = process.env.DEBUG_CHANNEL; // 채널 어디다 보낼지
+                const slakChannelId = process.env.TEST_CHANNEL; // 채널 어디다 보낼지
                 if (typeof slakChannelId !== 'string') {
                     throw new Error('slakChannelId가 제대로 설정되지 않았습니다!');
                 }
