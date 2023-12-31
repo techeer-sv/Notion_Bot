@@ -5,21 +5,26 @@ import { sendSlackMessage } from '../utils/function/slack/sendToChannel';
 import { getBlogTitleFromUrl } from '../notion/blog/blogTitle/getBlogTitleFromOtherUrl';
 
 const rule = new RecurrenceRule(); // 주기 바꾸기
-rule.minute = [0, 5, 7, 11, 20, 27, 30, 33, 36, 49, 54, 55];
-// rule.dayOfWeek = 1
-// rule.hour = 9;
-// rule.minute = 0;
-// rule.tz = 'Asia/Seoul';
-
+// rule.minute = [0, 5, 7, 11, 20, 27, 30, 33, 36, 49, 54, 55];
+rule.dayOfWeek = 1
+rule.hour = 9;
+rule.minute = 0;
+rule.tz = 'Asia/Seoul';
 
 export function SendBlogInfoToSlackSchedule(){
     scheduleJob(rule, async function() {
         console.log('매주 월요일 오전 9시에 실행');
         try {
-            const filterDate = new Date();
-            filterDate.setHours(filterDate.getHours() - 168); // 일주일로 설정
-            const filterDateKst = convertUTCToKST(filterDate);
-    
+            const startFilterDate = new Date();
+            const endFilterDate = new Date();
+            startFilterDate.setDate(startFilterDate.getDate() - (startFilterDate.getDay() || 7) - 7); 
+            startFilterDate.setHours(23, 59, 59, 999);
+            const startFilterDateKst = convertUTCToKST(startFilterDate); 
+
+            endFilterDate.setDate(endFilterDate.getDate() - 1); 
+            endFilterDate.setHours(23, 59, 59, 999); 
+            const endFilterDateKst = convertUTCToKST(endFilterDate); 
+
             const databaseId = process.env.NOTION_DATABASE_ID;
             if(!databaseId){
                 throw new Error('노션DB ID가 제대로 연결되지 않았습니다');
@@ -39,7 +44,7 @@ export function SendBlogInfoToSlackSchedule(){
                     const blogTitle = await getBlogTitleFromUrl(url, notionTitle);
                     const submitBlogDateKST = convertUTCToKST(new Date(page.created_time));
                     
-                    if(submitBlogDateKST && filterDateKst && submitBlogDateKST > filterDateKst){
+                    if(submitBlogDateKST && startFilterDateKst && endFilterDateKst && submitBlogDateKST > startFilterDateKst && submitBlogDateKST < endFilterDateKst){
                         notionData.push({notionTitle, url, creator, blogTitle});
                     }
                 }

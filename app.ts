@@ -3,8 +3,6 @@ dotenv.config();
 import {submitNotionCommandHandler} from './server/notion/blog/handler/submitNotionCommandHandler';
 import {uploadNotionBlogViewHandler} from './server/notion/blog/handler/uploadNotionBlogViewHandler';
 import { slackBotMentionHandler } from './server/slack/mention/handler/slackBotMentionHandler';
-import { PageObjectResponse } from '@notionhq/client/build/src/api-endpoints';
-import { error } from 'console';
 import { app } from './server/utils/appModule/slack/slack';
 import { notion } from './server/utils/appModule/notion/notion';
 import { SendBlogInfoToSlackSchedule } from './server/scheduler/sendBlogInfoToSlackChannel';
@@ -14,15 +12,6 @@ slackBotMentionHandler(app);
 submitNotionCommandHandler(app);
 uploadNotionBlogViewHandler(app);
 
-// const slackClient = new Client({ auth: process.env.SLACK_BOT_TOKEN }); --> 이거 쓰나 안쓰나?
-
-
-interface NotionDataArr {
-    notionTitle: string;
-    url: string;
-    creator: string;
-    blogTitle?: string;
-}
 
 // 서버 연결
 (async () => {
