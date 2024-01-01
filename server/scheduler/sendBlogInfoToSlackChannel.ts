@@ -4,8 +4,8 @@ import { notion } from '../utils/appModule/notion/notion';
 import { sendSlackMessage } from '../utils/function/slack/sendToChannel';
 import { getBlogTitleFromUrl } from '../notion/blog/blogTitle/getBlogTitleFromOtherUrl';
 
-const rule = new RecurrenceRule(); // 주기 바꾸기
-// rule.minute = [0, 5, 7, 11, 20, 27, 30, 33, 36, 49, 54, 55];
+const rule = new RecurrenceRule();
+
 rule.dayOfWeek = 1
 rule.hour = 9;
 rule.minute = 0;
@@ -75,7 +75,7 @@ export function SendBlogInfoToSlackSchedule(){
                 const removeAngle = data.blogTitle?.replace(/[<>]/g, '') || 'No Title';
                 combineBlogInfo += `• <${data.url}|${removeAngle}> - ${data.creator}  \n`;
             });
-            const slakChannelId = process.env.TEST_CHANNEL; // 채널 어디다 보낼지
+            const slakChannelId = process.env.TEAM_JOON_CHANNEL; 
             if (typeof slakChannelId !== 'string') {
                 throw new Error('slakChannelId가 제대로 설정되지 않았습니다!');
             }
