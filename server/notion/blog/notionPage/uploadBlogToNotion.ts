@@ -1,11 +1,7 @@
-import { Client } from '@notionhq/client';
+import { notion } from '../../../utils/appModule/notion/notion';
 
 export async function uploadBlogToNotion(blogName: string, blogUrl: string, userName: string){
-    const notion = new Client({ auth: process.env.NOTION_TOKEN });
-    console.log('databasedId 연결할게여');
     const databaseId = process.env.NOTION_DATABASE_ID;
-    console.log('databasedId 연결했어요');
-    console.log('Database ID:', databaseId);
 
     if (!databaseId) {
         console.error('databasedId 에러났어요');
