@@ -19,11 +19,9 @@ export function SendBlogInfoToSlackSchedule(){
             const endFilterDate = new Date();
             startFilterDate.setDate(startFilterDate.getDate() - (startFilterDate.getDay() || 7) - 7); 
             startFilterDate.setHours(23, 59, 59, 999);
-            const startFilterDateKst = convertUTCToKST(startFilterDate); 
 
             endFilterDate.setDate(endFilterDate.getDate() - 1); 
             endFilterDate.setHours(23, 59, 59, 999); 
-            const endFilterDateKst = convertUTCToKST(endFilterDate); 
 
             const databaseId = process.env.NOTION_DATABASE_ID;
             if(!databaseId){
@@ -44,7 +42,8 @@ export function SendBlogInfoToSlackSchedule(){
                     const blogTitle = await getBlogTitleFromUrl(url, notionTitle);
                     const submitBlogDateKST = convertUTCToKST(new Date(page.created_time));
                     
-                    if(submitBlogDateKST && startFilterDateKst && endFilterDateKst && submitBlogDateKST > startFilterDateKst && submitBlogDateKST < endFilterDateKst){
+                    if(submitBlogDateKST && startFilterDate && endFilterDate && submitBlogDateKST > startFilterDate && submitBlogDateKST < endFilterDate){
+                        console.log(`startFilterDate: ${startFilterDate} || endFilterDate: ${endFilterDate} || submitBlogDateKst: ${submitBlogDateKST}`);
                         notionData.push({notionTitle, url, creator, blogTitle});
                     }
                 }
