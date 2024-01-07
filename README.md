@@ -24,7 +24,7 @@
   <br/>
 
 # 🏠 시스템 아키텍처
-<img width="1233" alt="스크린샷 2024-01-07 오후 9 53 29" src="https://github.com/techeer-sv/Notion_Bot/assets/102022609/d04ff1cb-dc5d-44f8-99c4-c04336f85c7a">
+<img width="1025" alt="스크린샷 2024-01-07 오후 10 04 01" src="https://github.com/techeer-sv/Notion_Bot/assets/102022609/c5bead1e-5f95-4a66-bdac-d43df12cd23b">
 
 
 <br/>
