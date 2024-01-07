@@ -24,12 +24,7 @@
   <br/>
 
 # 🏠 시스템 아키텍처
-
-
-<br/>
-
-# 🛠️ 사용한 기술스택
-
+<img width="1233" alt="스크린샷 2024-01-07 오후 9 53 29" src="https://github.com/techeer-sv/Notion_Bot/assets/102022609/d04ff1cb-dc5d-44f8-99c4-c04336f85c7a">
 
 
 <br/>
