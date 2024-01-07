@@ -8,6 +8,11 @@
 
 <br/>
 
+# 🖨️ 개발블로그
+https://medium.com/@mira20932/귀찮은-작업들-슬랙봇으로-자동화하기-f3cdf9377ebd
+
+<br/>
+
 # 📑 Feature[1] : 블로그 등록
 등록된 채널에서 SlackBot의 [제출] 명령어로 제목과 블로그 URL을 입력하면 테크 블로깅 챌린지의 Notion 데이터베이스에 자동으로 등록됩니다
 
@@ -26,8 +31,8 @@
 # 🏠 시스템 아키텍처
 <img width="1025" alt="스크린샷 2024-01-07 오후 10 04 01" src="https://github.com/techeer-sv/Notion_Bot/assets/102022609/c5bead1e-5f95-4a66-bdac-d43df12cd23b">
 
-
 <br/>
+
 
 # 👩🏻‍💻 개발인원 : 1명
 
