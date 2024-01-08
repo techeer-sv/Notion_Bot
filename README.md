@@ -1,7 +1,3 @@
-<p >
-  <img width="346" alt="스크린샷 2024-01-03 오후 7 08 23" src="https://github.com/techeer-sv/Notion_Bot/assets/102022609/2f43d1b9-62ad-4fe3-9f5a-18702bdee2f3">
-</p>
-
 # 🌠 슬랙봇 기반 블로그 자동화 도구
 - 블로그 URL과 제목을 입력하면 Notion 데이터베이스에 자동 업로드
 - 매주 전주의 게시물을 슬랙 채널에 자동으로 공유
@@ -34,5 +30,10 @@ Medium: https://medium.com/@mira20932/귀찮은-작업들-슬랙봇으로-자동
 <br/>
 
 
-# 👩🏻‍💻 개발인원 : 1명
+# 👩🏻‍💻 개발인원 : 2명
+| Name    | 최현정   |  곽소정   |
+| ------- | -------| ---------|
+| Profile | <img width="280" alt="스크린샷 2024-01-08 오후 9 10 10" src="https://github.com/techeer-sv/Notion_Bot/assets/102022609/bc1ee107-154a-4adf-8ccc-38c83f1cce4a"> | <img width="280" alt="스크린샷 2024-01-08 오후 9 06 38" src="https://github.com/techeer-sv/Notion_Bot/assets/102022609/5734017b-9441-48c4-827b-b0a80166383b">|
+| Role    | Backend | Backend  |
+| gitHub  | [ppinkypeach](https://github.com/ppinkypeach) | [ssojungg](https://github.com/ssojungg)   |
 
