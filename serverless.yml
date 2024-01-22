@@ -1,0 +1,28 @@
+service: slack-notion-bot
+
+frameworkVersion: "3"
+
+provider:
+  name: aws
+  runtime: nodejs18.x
+  stage: ${opt:stage, 'dev'}  
+  deploymentMethod: direct
+  environment: 
+    SLACK_BOT_TOKEN: ${env:SLACK_BOT_TOKEN}
+    SLACK_SIGNING_SECRET: ${env:SLACK_SIGNING_SECRET}
+    NOTION_DATABASE_ID: ${env:NOTION_DATABASE_ID}
+    NOTION_TOKEN: ${env:NOTION_TOKEN}
+
+functions:
+  slackBotHandler:
+    handler: dist/server/utils/function/lambdaHandler/slackBot.handler
+    events:
+     - httpApi:
+         path: slack/events
+         method: post
+
+plugins:
+  - serverless-dotenv-plugin
+  - serverless-offline
+
+useDotenv: true
