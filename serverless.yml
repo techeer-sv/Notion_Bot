@@ -5,7 +5,8 @@ frameworkVersion: "3"
 provider:
   name: aws
   runtime: nodejs18.x
-  stage: ${opt:stage, 'dev'}  
+  stage: ${opt:stage, 'dev'}
+  region: ap-northeast-2
   deploymentMethod: direct
   environment: 
     SLACK_BOT_TOKEN: ${env:SLACK_BOT_TOKEN}
@@ -15,11 +16,11 @@ provider:
 
 functions:
   slackBotHandler:
-    handler: dist/server/utils/function/lambdaHandler/slackBot.handler
+    handler: dist/server/utils/function/lambdaHandler/handler.handler
     events:
      - httpApi:
-         path: slack/events
-         method: post
+        method: POST
+        path: /slack/events
 
 plugins:
   - serverless-dotenv-plugin

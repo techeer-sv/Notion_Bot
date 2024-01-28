@@ -11,7 +11,9 @@
     "start": "nodemon -x ts-node app.ts",
     "test": "echo \"Error: no test specified\" && exit 1",
     "copy-files": "cp -r src/public/ dist/public/ && cp -r src/views/ dist/views/",
-    "build": "tsc && npm run copy-files"
+    "build": "tsc --build",
+    "deploy:dev": "NODE_ENV=development sls deploy --verbose",
+    "deploy:production": "NODE_ENV=production sls deploy --stage production --verbose"
   },
   "keywords": [],
   "author": "",
