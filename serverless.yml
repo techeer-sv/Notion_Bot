@@ -21,6 +21,10 @@ functions:
      - httpApi:
         method: POST
         path: /slack/events
+     - httpApi:
+        method: POST
+        path: /slack/command
+        
 
 plugins:
   - serverless-dotenv-plugin
