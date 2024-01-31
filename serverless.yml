@@ -16,7 +16,7 @@ provider:
 
 functions:
   slackBotHandler:
-    handler: dist/server/utils/function/lambdaHandler/handler.handler
+    handler: dist/utils/function/lambdaHandler/handler.handler
     events:
      - httpApi:
         method: POST
