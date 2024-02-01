@@ -1,8 +1,8 @@
 import { App } from '@slack/bolt';
 import {uploadBlogToNotion} from '../notionPage/uploadBlogToNotion';
-import { sendSlackMessage } from '../../../utils/function/slack/sendToChannel';
+import { Client } from '@notionhq/client';
 
-export const uploadNotionBlogViewHandler = (app: App) => {
+export const uploadNotionBlogViewHandler = (app: App, notion: Client) => {
     app.view('uploadBlog', async({ack, body, view, client}) => {
 
         await ack();
@@ -20,7 +20,11 @@ export const uploadNotionBlogViewHandler = (app: App) => {
             const uploadNotionUrl = await uploadBlogToNotion(blogName, blogUrl, slackUserName);
             const channel = body.user.id;
             const message = `블로그가 Notion에 업로드 되었습니다! ${uploadNotionUrl.notionUrl}`;
-            sendSlackMessage(channel, message );
+
+            await client.chat.postMessage({
+                channel: channel,
+                text: message
+            });
         } catch (error) {
             console.error('Notion 업로드 실패:', error);
         }

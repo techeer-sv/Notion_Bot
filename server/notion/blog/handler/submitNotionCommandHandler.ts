@@ -9,10 +9,14 @@ export const submitNotionCommandHandler = (app: App) => {
         const currentChannelId = body.channel_id;
       
         if(!techBlogChannelId.includes(currentChannelId)){
-          await client.chat.postMessage({
-              channel: body.user_id,
-              text: '해당 명령어는 테크 블로깅 챌린지 채널에서만 사용할 수 있습니다😗'
-          });
+            try{
+                await client.chat.postMessage({
+                    channel: body.user_id,
+                    text: '해당 명령어는 테크 블로깅 챌린지 채널에서만 사용할 수 있습니다😗'
+                });
+            } catch (error) {
+                console.error('다른 채널에서 slash command 실행시 에러메세지 에러:', error);
+            }
         }else{
           try {
               await client.views.open({
