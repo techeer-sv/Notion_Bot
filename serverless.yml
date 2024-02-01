@@ -27,7 +27,11 @@ functions:
      - httpApi:
         method: POST
         path: /slack/uploadNotion
-
+  SendBlogInfoToSlackSchedule:
+    handler: dist/scheduler/sendBlogInfoToSlackChannel.handler
+    events:
+      - schedule:
+          rate: cron(0 0 ? * 2 *)
 plugins:
   - serverless-dotenv-plugin
   - serverless-offline

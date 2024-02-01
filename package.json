@@ -22,6 +22,7 @@
     "@notionhq/client": "^2.2.14",
     "@slack/bolt": "^3.16.0",
     "@slack/events-api": "^3.0.1",
+    "@slack/web-api": "^7.0.1",
     "axios": "^1.6.3",
     "cheerio": "^1.0.0-rc.12",
     "dotenv": "^16.3.1",
