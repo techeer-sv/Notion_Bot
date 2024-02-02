@@ -5,8 +5,13 @@
 <br/>
 
 # 🖨️ 개발블로그
-Medium: https://medium.com/@mira20932/귀찮은-작업들-슬랙봇으로-자동화하기-f3cdf9377ebd
+[개발과정] 
+* https://medium.com/@mira20932/귀찮은-작업들-슬랙봇으로-자동화하기-f3cdf9377ebd
 
+[개발 중 직면했던 트러블슈팅]
+* https://velog.io/@ppinkypeach/Serverless-프레임워크-사용-시-Runtime.-ImportModuleError-해결
+* https://velog.io/@ppinkypeach/SlackBot-개발-Aws-Lambda-CloudWatch-Error-No-request-handler-matched-the-request-undefined-해결
+* https://velog.io/@ppinkypeach/bolt-app-ReceiverMultipleAckError-해결
 <br/>
 
 # 📑 Feature[1] : 블로그 등록
@@ -25,7 +30,8 @@ Medium: https://medium.com/@mira20932/귀찮은-작업들-슬랙봇으로-자동
   <br/>
 
 # 🏠 시스템 아키텍처
-<img width="1025" alt="스크린샷 2024-01-07 오후 10 04 01" src="https://github.com/techeer-sv/Notion_Bot/assets/102022609/c5bead1e-5f95-4a66-bdac-d43df12cd23b">
+<img width="895" alt="스크린샷 2024-02-02 오후 9 33 12" src="https://github.com/techeer-sv/Notion_Bot/assets/102022609/9d863e49-8d80-462d-b191-2de4466ba8d2">
+
 
 <br/>
 
