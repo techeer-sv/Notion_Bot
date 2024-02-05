@@ -26,7 +26,7 @@ jobs:
 
             - name: Login Aws and Deploy to Aws Lambda
               env: 
-                AWS_ACCESS_KEY: ${{secrets.AWS_ACCESS_KEY}}
+                AWS_ACCESS_KEY_ID: ${{secrets.AWS_ACCESS_KEY_ID}}
                 AWS_SECRET_ACCESS_KEY: ${{secrets.AWS_SECRET_ACCESS_KEY}}
                 SLACK_SIGNING_SECRET: ${{secrets.SLACK_SIGNING_SECRET}}
                 SLACK_BOT_TOKEN: ${{secrets.SLACK_BOT_TOKEN}}
