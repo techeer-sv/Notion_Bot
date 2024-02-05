@@ -37,7 +37,6 @@ exports.handler = async(event: any) => {
                 const submitBlogDateKST = convertUTCToKST(new Date(page.created_time));
                 
                 if(submitBlogDateKST && startFilterDate && endFilterDate && submitBlogDateKST > startFilterDate && submitBlogDateKST < endFilterDate){
-                    console.log(`startFilterDate: ${startFilterDate} || endFilterDate: ${endFilterDate} || submitBlogDateKst: ${submitBlogDateKST}`);
                     notionData.push({notionTitle, url, creator, blogTitle});
                 }
             }
