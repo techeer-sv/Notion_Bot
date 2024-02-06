@@ -37,8 +37,18 @@ functions:
     events:
       - schedule:
           rate: cron(0 0 ? * 2 *)
-plugins:
-  - serverless-dotenv-plugin
-  - serverless-offline
 
-useDotenv: true
+  plugins:
+    - serverless-dotenv-plugin
+    - serverless-offline
+    - serverless-domain-manager
+
+  custom:
+    customDomain:
+      domainName: slack.team-joon.com
+      basePath: ''
+      stage: ${self:provider.stage}
+      createRoute53Record: false 
+
+
+  useDotenv: true
