@@ -34,5 +34,5 @@ jobs:
                 NOTION_DATABASE_ID: ${{secrets.NOTION_DATABASE_ID}}
                 TEAM_JOON_CHANNEL: ${{secrets.TEAM_JOON_CHANNEL}}
                 DEBUG_CHANNEL: ${{secrets.DEBUG_CHANNEL}}
-              run: npm run deploy:dev
+              run: npm run deploy:production
             
