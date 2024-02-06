@@ -49,6 +49,3 @@ functions:
       basePath: ''
       stage: ${self:provider.stage}
       createRoute53Record: false 
-
-
-  useDotenv: true
