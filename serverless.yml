@@ -20,6 +20,7 @@ provider:
 functions:
   slackBotHandler:
     handler: dist/utils/function/lambdaHandler/handler.handler
+    timeout: 15
     events:
      - httpApi:
         method: POST
@@ -32,6 +33,7 @@ functions:
         path: /slack/uploadNotion
   SendBlogInfoToSlackSchedule:
     handler: dist/scheduler/sendBlogInfoToSlackChannel.handler
+    timeout: 20
     events:
       - schedule:
           rate: cron(0 0 ? * 2 *)
