@@ -46,7 +46,7 @@ custom:
   customDomain:
     domainName: slack.team-joon.com
     basePath: ''
-    stage: ${self:provider.stage}
+    stage: $default
     createRoute53Record: false
     endpointType: 'regional'
     securityPolicy: tls_1_2 
