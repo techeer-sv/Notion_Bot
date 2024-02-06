@@ -39,7 +39,6 @@ functions:
           rate: cron(0 0 ? * 2 *)
 
 plugins:
-  - serverless-dotenv-plugin
   - serverless-offline
   - serverless-domain-manager
 
