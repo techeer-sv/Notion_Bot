@@ -31,13 +31,9 @@ export async function uploadBlogToNotion(blogName: string, blogUrl: string, user
         }
     };
 
-    console.log('Notion API 요청:', JSON.stringify(pageCreateRequest, null, 3));
-
     try {
         const response = await notion.pages.create(pageCreateRequest);
-        console.log('Page created with ID:', response.id);
         const notionPageUrl = `https://www.notion.so/${response.id.replace(/-/g, '')}`;
-        console.log('Page URL:', notionPageUrl);
         return { notionUrl: notionPageUrl };
     } catch (error) {
         console.error('Notion API 호출 중 오류 발생:', error);

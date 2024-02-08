@@ -7,7 +7,6 @@ import { WebClient } from "@slack/web-api";
 const slackClient = new WebClient(process.env.SLACK_BOT_TOKEN);
 
 exports.handler = async(event: any) => {
-    console.log('매주 월요일 오전 9시에 실행되는 스케줄러 시작');
     try {
         const startFilterDate = new Date();
         const endFilterDate = new Date();
