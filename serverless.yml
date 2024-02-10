@@ -30,13 +30,13 @@ functions:
      - httpApi:
         method: POST
         path: /slack/uploadNotion
-      - schedule:
-          rate: rate(1 hour)
-          enabled: true
-          input:
-            detail-type: "ScheduledEvent"
-            source: "aws.events"
-            detail: {}
+     - schedule:
+        rate: rate(1 hour)
+        enabled: true
+        input:
+          detail-type: "ScheduledEvent"
+          source: "aws.events"
+          detail: {}
   SendBlogInfoToSlackSchedule:
     handler: dist/scheduler/sendBlogInfoToSlackChannel.handler
     timeout: 20
