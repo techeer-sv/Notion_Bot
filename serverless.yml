@@ -16,7 +16,6 @@ provider:
     TEAM_JOON_CHANNEL: ${env:TEAM_JOON_CHANNEL}
     DEBUG_CHANNEL: ${env:DEBUG_CHANNEL}
 
-
 functions:
   slackBotHandler:
     handler: dist/utils/function/lambdaHandler/handler.handler
@@ -31,6 +30,13 @@ functions:
      - httpApi:
         method: POST
         path: /slack/uploadNotion
+      - schedule:
+          rate: rate(1 hour)
+          enabled: true
+          input:
+            detail-type: "ScheduledEvent"
+            source: "aws.events"
+            detail: {}
   SendBlogInfoToSlackSchedule:
     handler: dist/scheduler/sendBlogInfoToSlackChannel.handler
     timeout: 20

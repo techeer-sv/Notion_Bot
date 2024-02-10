@@ -1,6 +1,6 @@
 import { SlackViewAction, ViewOutput } from "@slack/bolt";
 import { uploadBlogToNotion } from "./uploadBlogToNotion";
-import { WebClient } from "@slack/web-api";
+
 export async function handlerBlogUploadSubmission(body: SlackViewAction, view: ViewOutput, client: any){
     const userId = body.user.id;
     const slackUserInfo = await client.users.info({user: userId});
