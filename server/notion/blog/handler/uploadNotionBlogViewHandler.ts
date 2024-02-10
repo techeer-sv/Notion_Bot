@@ -7,6 +7,6 @@ export const uploadNotionBlogViewHandler = (app: App, notion: Client) => {
 
         await ack();
 
-        handlerBlogUploadSubmission(body, view, client);
+        await handlerBlogUploadSubmission(body, view, client);
     });
 }
