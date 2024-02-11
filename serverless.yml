@@ -31,7 +31,7 @@ functions:
         method: POST
         path: /slack/uploadNotion
      - schedule:
-        rate: rate(1 hour)
+        rate: rate(30 minutes)
         enabled: true
         input:
           detail-type: "ScheduledEvent"
