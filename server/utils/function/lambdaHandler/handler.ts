@@ -4,14 +4,20 @@ import { submitNotionCommandHandler } from "../../../notion/blog/handler/submitN
 import { uploadNotionBlogViewHandler } from "../../../notion/blog/handler/uploadNotionBlogViewHandler";
 import { app } from "../../appModule/slack/slack";
 import { notion } from "../../appModule/notion/notion";
+import { CustomAwsEvent } from "../../../types/AwsEvent";
 
 let handlerRegistered = false;
 
 export const handler = async(
-    event: AwsEvent,
+    event: CustomAwsEvent,
     context: any,
     callback: AwsCallback
 ): Promise<AwsResponse> => {
+    if(event.source === 'aws.events'){
+        console.log('Warm Start 설정');
+        return {statusCode:200, body:'Warm Start 완료'};
+    }
+
     if(!handlerRegistered){
         submitNotionCommandHandler(app);
         uploadNotionBlogViewHandler(app, notion);
