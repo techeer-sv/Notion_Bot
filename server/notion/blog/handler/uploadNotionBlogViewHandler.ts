@@ -4,9 +4,7 @@ import { handlerBlogUploadSubmission } from '../notionPage/handleBlogUploadSubmi
 
 export const uploadNotionBlogViewHandler = (app: App, notion: Client) => {
     app.view('uploadBlog', async({ack, body, view, client}) => {
-
         await ack();
-
         await handlerBlogUploadSubmission(body, view, client);
     });
 }
