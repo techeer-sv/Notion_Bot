@@ -36,6 +36,7 @@ exports.handler = async(event: any) => {
                 const submitBlogDateKST = convertUTCToKST(new Date(page.created_time));
                 
                 if(submitBlogDateKST && startFilterDate && endFilterDate && submitBlogDateKST > startFilterDate && submitBlogDateKST < endFilterDate){
+                    console.log(`블로그이름: ${blogTitle}`);
                     notionData.push({notionTitle, url, creator, blogTitle});
                 }
             }
