@@ -21,7 +21,7 @@
     - **Serverless 프레임워크 사용 시 Handler Path 에러:** [https://velog.io/@ppinkypeach/Serverless-프레임워크-사용-시-Runtime.-ImportModuleError-해결](https://velog.io/@ppinkypeach/Serverless-%ED%94%84%EB%A0%88%EC%9E%84%EC%9B%8C%ED%81%AC-%EC%82%AC%EC%9A%A9-%EC%8B%9C-Runtime.-ImportModuleError-%ED%95%B4%EA%B2%B0)
     - **AWS Lambda 초기화 순서 문제:** [https://velog.io/@ppinkypeach/SlackBot-개발-Aws-Lambda-CloudWatch-Error-No-request-handler-matched-the-request-undefined-해결](https://velog.io/@ppinkypeach/SlackBot-%EA%B0%9C%EB%B0%9C-Aws-Lambda-CloudWatch-Error-No-request-handler-matched-the-request-undefined-%ED%95%B4%EA%B2%B0)
     - **AWS Lambda 중복 초기화 문제:** [https://velog.io/@ppinkypeach/bolt-app-ReceiverMultipleAckError-해결](https://velog.io/@ppinkypeach/bolt-app-ReceiverMultipleAckError-%ED%95%B4%EA%B2%B0)
-    - **AWS Lambda Cold Start 문제:**
+    - **AWS Lambda Cold Start 문제 해결 및 성능 개선:** https://velog.io/@ppinkypeach/Slackbot-개발-Lambda-성능-개선기-Cold-Start-문제
  
 <br/>
 
