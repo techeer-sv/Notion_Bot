@@ -2,7 +2,8 @@
 
 이 슬랙봇은 **200명 가량** 개발 커뮤니티의 [테크 블로깅 챌린지]를 관리하기 위해 만들어졌습니다. 2주마다 작성한 기술 블로그를 매번 공용 Notion Database에 업로드를 하는 것과 누가 어떤 글을 올렸는 지 매주 확인해야 하는 **번거로움을 해결**할 수 있습니다.
 
-<img width="843" alt="스크린샷 2024-02-13 오후 1 43 13" src="https://github.com/techeer-sv/Notion_Bot/assets/102022609/f1c5b4fd-57f1-4912-b959-4cf64b852145">
+<img width="749" alt="스크린샷 2024-02-16 오후 3 02 25" src="https://github.com/techeer-sv/Notion_Bot/assets/102022609/3e94060c-7819-4355-bf24-7542bc8d87cc">
+
 
 
 <br/>
