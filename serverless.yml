@@ -48,6 +48,8 @@ plugins:
   - serverless-offline
   - serverless-domain-manager
 
+useDotenv: true
+
 custom:
   customDomain:
     domainName: slack.team-joon.com
