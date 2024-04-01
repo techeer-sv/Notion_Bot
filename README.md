@@ -33,7 +33,8 @@
 # 📑 Feature[1] : 블로그 등록
 테크 블로깅 채널에서 SlackBot의 [제출] 명령어로 제목과 블로그 URL을 입력하면 테크 블로깅 챌린지의 Notion 데이터베이스에 자동으로 등록됩니다
 
-![슬랙봇 노션 업로드](https://github.com/techeer-sv/Notion_Bot/assets/102022609/3b6e1a44-f077-4039-a127-905b04a6430b)
+![slackbot 이용해 노션 업로드](https://github.com/techeer-sv/Notion_Bot/assets/126966126/7e4b99c5-0d7c-4d0c-9aff-62eff16c596b)
+
 
 <br/>
 
