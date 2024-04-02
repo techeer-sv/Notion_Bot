@@ -2,12 +2,9 @@
 
 포션은 **200명 가량** 개발 커뮤니티의 [테크 블로깅 챌린지]를 관리하기 위해 만들어졌습니다. 2주마다 작성한 기술 블로그를 매번 공용 Notion Database에 업로드를 하는 것과 누가 어떤 글을 올렸는 지 매주 확인해야 하는 **번거로움을 해결**할 수 있습니다.
 
-계속 기능 업데이트 예정이니 많은 관심 부탁드립니다😎
+😎 현재 유지보수 및 추가 기능 업데이트 예정이니 많은 관심 부탁드리며, 버그 발생시 hyeonjung.redis@gmail.com 나 kawy.sojung@gmail.com 로 제보 부탁드립니다 😎
 
-
-<img width="749" alt="스크린샷 2024-02-16 오후 3 02 25" src="https://github.com/techeer-sv/Notion_Bot/assets/102022609/3e94060c-7819-4355-bf24-7542bc8d87cc">
-
-
+<img width="749" alt="스크린샷 2024-02-16 오후 3 02 25" src="https://github.com/techeer-sv/Notion_Bot/assets/102022609/3e94060c-7819-4355-bf24-7542bc8d87cc">
 
 <br/>
 
@@ -42,7 +39,7 @@
 <br/>
 
 # 🖨️ Feature[2] : 블로그 공유
-  <span>매주 월요일 오전 9시마다 전주에 등록된 Notion 데이터베이스의 블로그들을 해당 채널에 자동으로 업로드합니다</span>
+  <span>매주 월요일마다 전주에 등록된 Notion 데이터베이스에 저장된 블로그들을 테크 블로깅 채널에 자동으로 업로드합니다</span>
 
   
   <img width="530" alt="스크린샷 2024-01-03 오후 7 52 55" src="https://github.com/techeer-sv/Notion_Bot/assets/102022609/9e532dfb-7490-4c2b-b120-a1d2f6dff8ea">
